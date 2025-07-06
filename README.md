@@ -95,13 +95,14 @@ To secure your Firebase Realtime Database and prevent exploitation by tools like
 
  -  Implement Proper Firebase Security Rules
   - Use strict .read and .write conditions:
-    ```
-    {
+ ```   {
   "rules": {
     ".read": "auth != null",
     ".write": "auth != null"
   }
 }
+```
+
  
  -  Avoid Setting Rules to true
 
