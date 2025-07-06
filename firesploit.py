@@ -11,10 +11,10 @@ import requests
 import argparse
 import json
 from datetime import datetime
+from typing import List
 
 
 def current_timestamp() -> str:
-    """Added this so that it can add the current data time"""
     return datetime.now().isoformat()
 
 
@@ -49,7 +49,6 @@ def try_public_write(database_url: str) -> None:
     }
 
     print(f"\n[+] Attempting public write access: {payload_url}")
-    print(f"[*] Exploit attempted at: {timestamp}")
     try:
         response = requests.put(payload_url, json=payload, timeout=5)
         if response.status_code == 200:
@@ -62,14 +61,26 @@ def try_public_write(database_url: str) -> None:
         print(f"[x] Connection error during write attempt: {error}")
 
 
+def load_targets_from_file(file_path: str) -> List[str]:
+    try:
+        with open(file_path, "r") as f:
+            return [line.strip() for line in f if line.strip()]
+    except FileNotFoundError:
+        print(f"File not found: {file_path}")
+        return []
+
+
 def parse_arguments():
     parser = argparse.ArgumentParser(
         description="FireSploit - Firebase public access vulnerability scanner"
     )
     parser.add_argument(
         "--url",
-        required=True,
-        help="Firebase DB URL (e.g., https://yourapp.firebaseio.com)"
+        help="Single Firebase DB URL (e.g., https://yourapp.firebaseio.com)"
+    )
+    parser.add_argument(
+        "--file",
+        help="Path to file containing Firebase URLs to scan (one per line)"
     )
     return parser.parse_args()
 
@@ -78,16 +89,23 @@ def main():
     print("FireSploit Scanner v1.1")
     print(f"[*] Executed at: {current_timestamp()}")
     args = parse_arguments()
-    target_url = args.url.rstrip("/")
 
-    if check_public_read(target_url):
-        choice = input("[?] Do you want to attempt a write test? (y/N): ").strip().lower()
-        if choice == "y":
-            try_public_write(target_url)
-        else:
-            print("[*] Write test skipped.")
+    if args.file:
+        targets = load_targets_from_file(args.file)
+        print(f"[*] Loaded {len(targets)} targets from {args.file}")
+        for idx, url in enumerate(targets, 1):
+            print(f"\n--- [{idx}/{len(targets)}] Target: {url} ---")
+            if check_public_read(url):
+                choice = input("[?] Attempt write exploit? (y/N): ").strip().lower()
+                if choice == "y":
+                    try_public_write(url)
+    elif args.url:
+        if check_public_read(args.url.rstrip("/")):
+            choice = input("Attempt write exploit? (y/N): ").strip().lower()
+            if choice == "y":
+                try_public_write(args.url.rstrip("/"))
     else:
-        print("[✓] No public access vulnerabilities detected.")
+        print("Error: You must provide either --url or --file")
 
 
 if __name__ == "__main__":
