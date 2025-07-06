@@ -91,7 +91,19 @@ FireSploit/
 ```
 
 ## Best Practices
+To secure your Firebase Realtime Database and prevent exploitation by tools like FireSploit, follow these guidelines:
 
+ -  Implement Proper Firebase Security Rules
+  - Use strict .read and .write conditions:
+    ```
+    {
+  "rules": {
+    ".read": "auth != null",
+    ".write": "auth != null"
+  }
+}
+ 
+ -  Avoid Setting Rules to true
 
 ## Legal Disclaimer
 > **_This project is intended for educational and authorized testing purposes only.  
