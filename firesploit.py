@@ -12,6 +12,24 @@ import argparse
 import json
 from datetime import datetime
 from typing import List
+import sys
+
+
+class Tee:
+    def __init__(self, filename):
+        self.file = open(filename, "w", encoding="utf-8")
+        self.stdout = sys.stdout
+
+    def write(self, data):
+        self.file.write(data)
+        self.stdout.write(data)
+
+    def flush(self):
+        self.file.flush()
+        self.stdout.flush()
+
+    def close(self):
+        self.file.close()
 
 
 def current_timestamp() -> str:
@@ -82,13 +100,21 @@ def parse_arguments():
         "--file",
         help="Path to file containing Firebase URLs to scan (one per line)"
     )
+    parser.add_argument(
+        "-o", "--output",
+        help="Save output to a specified file (e.g., save.txt)"
+    )
     return parser.parse_args()
 
 
 def main():
+    args = parse_arguments()
+
+    if args.output:
+        sys.stdout = Tee(args.output)
+
     print("FireSploit Scanner v1.1")
     print(f"[*] Executed at: {current_timestamp()}")
-    args = parse_arguments()
 
     if args.file:
         targets = load_targets_from_file(args.file)
@@ -106,6 +132,10 @@ def main():
                 try_public_write(args.url.rstrip("/"))
     else:
         print("Error: You must provide either --url or --file")
+
+    if args.output:
+        sys.stdout.file.close()
+        sys.stdout = sys.stdout.stdout
 
 
 if __name__ == "__main__":
