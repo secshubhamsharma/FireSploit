@@ -12,18 +12,18 @@
 
 ## Table of Contents
 
-- [About the Vulnerability](#-about-the-vulnerability)
-- [What FireSploit Does](#-what-firesploit-does)
-- [Installation](#-installation)
-- [Demo](#-demo)
-- [Usage](#-usage)
-- [Project Structure](#-project-structure)
-- [Best Practices](#️-best-practices)
-- [Legal Disclaimer](#️-legal-disclaimer)
-- [Contributing](#-contributing)
-- [Author](#-author)
-- [Support](#-support)
-- [License](#-license)
+- [About the Vulnerability](#about-the-vulnerability)
+- [What FireSploit Does](#what-firesploit-does)
+- [Installation](#installation)
+- [Demo](#demo)
+- [Usage](#usage)
+- [Project Structure](#project-structure)
+- [Best Practices](#best-practices)
+- [Legal Disclaimer](#legal-disclaimer)
+- [Contributing](#contributing)
+- [Author](#author)
+- [Support](#support)
+- [License](#license)
 
 ---
 
