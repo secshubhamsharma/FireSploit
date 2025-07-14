@@ -15,6 +15,7 @@
 - [About the Vulnerability](#-about-the-vulnerability)
 - [What FireSploit Does](#-what-firesploit-does)
 - [Installation](#-installation)
+- [Demo](#-demo)
 - [Usage](#-usage)
 - [Project Structure](#-project-structure)
 - [Best Practices](#️-best-practices)
@@ -52,7 +53,7 @@ Exploits the database (optional):
  - Reads and prints live data
  - Injects a harmless payload to simulate attack
 
-## DEMO 
+## Demo 
 <img width="1261" alt="Screenshot 2025-07-06 at 11 53 48 PM" src="https://github.com/user-attachments/assets/3597d45e-175a-4fb8-9732-9b3f4219e9a2" />
 
 
