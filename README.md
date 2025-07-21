@@ -66,7 +66,14 @@ pip install -r requirements.txt
 
 ## Usage
 ```
-python firesploit.py --url https://yourfirebase.firebaseio.com
+# Scan a single Firebase instance
+python3 firesploit.py --url https://yourproject.firebaseio.com
+
+# Scan multiple targets from a file
+python3 firesploit.py --file firebase_targets.txt
+
+# Save results to a file
+python3 firesploit.py --file firebase_targets.txt --output report.txt
 ```
 
 If `.read` access is open: 
