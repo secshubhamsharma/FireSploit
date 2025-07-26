@@ -129,6 +129,7 @@ Want to improve FireSploit? Contributions are welcome!
  - [GitHub: @secshubhamsharma](https://github.com/secshubhamsharma)
  - [LinkedIn: @secshubhamsharma](https://linkedin.com/in/secshubhamsharma)
  - [Email: secshubhamsharma@gmail.com](mailto:secshubhamsharma@gmail.com)
+ - [Medium: secshubhamsharma](https://medium.com/@secshubhamsharma)
 
 ## Support
 If you found this tool helpful
